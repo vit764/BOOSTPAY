@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+                <div class="col-lg-8">
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#description" aria-controls="home" role="tab" data-toggle="tab">
+                                Вопрос
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#delivery" aria-controls="profile" role="tab" data-toggle="tab">
+                                Ответ
+                            </a>
+                        </li>
+                      </ul>
+
+                      <!-- Tab panes -->
+                      <div class="tab-content product-description-tabs">
+
+                        <div role="tabpanel" class="tab-pane active" id="description">
+                            <form class="form-horizontal" method="post">
+                                {% csrf_token %}
+                                    <label>Введите свой вопрос</label>
+                                    <textarea name="question" rows="4" cols="80"></textarea>
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary btn-lg">Отправить</button>
+                                    </div>
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="delivery">
+                            {% if dialogs %}
+
+                                    {% for dialog in dialogs %}
+                                        <h5> На ваш вопрос:</h5>
+                                        {{ dialog.user_meessage }}
+                                        {% if dialog.admin_meessage %}
+                                        <h5> Вы получили ответ:</h5>
+                                        {{ dialog.admin_meessage }}
+                                        {% else %}
+                                        <h5> Администратор ответит в ближайшее время</h5>
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                            {% else %}
+                                <h4>Вы еще не задавали вопросов</h4>
+                            {% endif %}
+                        </div>
+                      </div>
+
+                </div>
+        </div>
+    </div>
+{% endblock %}
+
+
